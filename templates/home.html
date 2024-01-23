@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management Homepage</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="app.js"></script>
+</head>
+<body>
+
+<div class="container mt-4">
+    <h2>Welcome to the Employee Management System</h2>
+    <p>Use the following links to manage employees:</p>
+    <ul>
+        <li><a href="/employees">View All Employees</a></li>
+        <li>
+            <a href="#" onclick="showViewEmployeeForm()">View Employee by ID</a>
+            <div id="viewEmployeeForm" style="display: none;">
+                <form onsubmit="return fetchEmployeeById()">
+                    <label for="employeeId">Enter Employee ID: </label>
+                    <input type="text" id="employeeId" required>
+                    <button type="submit" class="btn btn-primary btn-sm">View Employee</button>
+                </form>
+            </div>
+        </li>
+        <li><a href="#" onclick="showAddEmployeeForm()">Create New Employee</a></li>
+        <li><a href="/employees/1" onclick="alert('You can use a tool like Postman or curl to send PUT requests.'); return false;">Update Employee by ID</a></li>
+        <li><a href="/employees/1" onclick="alert('You can use a tool like Postman or curl to send DELETE requests.'); return false;">Delete Employee by ID </a></li>
+    </ul>
+</div>
+
+</body>
+</html>
+
+<script>
+    function showViewEmployeeForm() {
+        document.getElementById('viewEmployeeForm').style.display = 'block';
+    }
+
+    function fetchEmployeeById() {
+        const employeeId = document.getElementById('employeeId').value;
+        fetch(`/employees/${employeeId}`)
+            .then(response => response.json())
+            .then(data => {
+                alert(`Employee Details:\nName: ${data.Name}\nEmail: ${data.Email}`);
+                document.getElementById('viewEmployeeForm').style.display = 'none';
+            })
+            .catch(error => console.error('Error fetching employee by ID:', error));
+
+        return false; // Prevent form submission
+    }
+
+    function showAddEmployeeForm() {
+        alert('For testing purposes, please use the "Create New Employee" link on the homepage.');
+    }
+</script>
